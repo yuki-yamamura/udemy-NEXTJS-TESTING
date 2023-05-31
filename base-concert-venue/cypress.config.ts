@@ -6,13 +6,15 @@ import { Band } from "./lib/features/bands/types";
 
 export default defineConfig({
   e2e: {
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     setupNodeEvents(on, config) {
-      // implement node event listeners here
+      // eslint-disable-next-line no-param-reassign
+      config.env.REVALIDATION_SECRET = process.env.REVALIDATION_SECRET;
       on("task", {
         "db:reset": () => resetDB(),
         addBand: (newBand: Band) => addBand(newBand),
       });
+
+      return config;
     },
   },
 });
