@@ -1,5 +1,5 @@
-import { generateNewBand } from "@/__tests__/__mocks__/fakeData/newBand";
-import { generateRandomId } from "@/lib/features/reservations/utils";
+import { generateNewBand } from "../../__tests__/__mocks__/fakeData/newBand";
+import { generateRandomId } from "../../lib/features/reservations/utils";
 
 describe("displays correct heading when navigating", () => {
   it("shows route", () => {
@@ -17,6 +17,7 @@ describe("displays correct heading when navigating", () => {
   });
 });
 
+// failure
 it("displays correct band name for band route that existed at build time", () => {
   cy.task("db:reset").visit("/bands/1");
   cy.contains(/Shamrock Pete/i).should("exist");
@@ -27,6 +28,7 @@ it("displays error message for band route that not existed at build time", () =>
   cy.contains(/error: band not found/i).should("exist");
 });
 
+// failure
 it("displays name for band that was not present at build time", () => {
   const bandId = generateRandomId();
   const newBand = generateNewBand(bandId);
