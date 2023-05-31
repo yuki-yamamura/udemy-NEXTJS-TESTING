@@ -24,12 +24,10 @@ it("should refresh show page after 30 seconds", () => {
   cy.findAllByText(/sold out/i).should("have.length", 2);
 });
 
-it.skip("should refresh reservations page after 15 seconds", () => {
+it("should refresh reservations page after 15 seconds", () => {
   cy.clock();
   cy.task("db:reset").visit("/reservations/0");
 
-  // click sign in button with default input values (email: test@test@test, password: test)
-  //   but sign in error will occurs. I don't know why and how to fix it.
   cy.findByRole("main").within(() => {
     cy.findByRole("button", { name: /sign in/i }).click();
   });
