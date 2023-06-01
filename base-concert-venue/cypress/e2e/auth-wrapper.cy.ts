@@ -73,3 +73,40 @@ it("runs auth flow for fail login", () => {
   cy.findByRole("button", { name: /sign out/i }).should("exist");
   cy.findByRole("button", { name: /sign in/i }).should("not.exist");
 });
+
+it("redirects to sign-in for protected pages", () => {
+  cy.fixture("protected-pages.json").then((urls: string[]) => {
+    urls.forEach((url) => {
+      cy.visit(url);
+      cy.findByLabelText(/email address/i).should("exist");
+      cy.findByLabelText(/password/i).should("exist");
+    });
+  });
+});
+
+it("does not show sign-in when already signed in", () => {
+  cy.task("db:reset").signIn(
+    Cypress.env("TEST_USER_EMAIL"),
+    Cypress.env("TEST_PASSWORD")
+  );
+
+  // visit protected page, then pass through sign-in flow.
+  cy.visit("/reservations/0");
+  cy.findByRole("heading", { name: /sign in to your account/i }).should(
+    "not.exist"
+  );
+  cy.findByRole("button", { name: /purchase/i }).should("exist");
+});
+
+it("shows protected user pages when already signed in", () => {
+  cy.task("db:reset").signIn(
+    Cypress.env("TEST_USER_EMAIL"),
+    Cypress.env("TEST_PASSWORD")
+  );
+
+  cy.visit("/user");
+
+  cy.findByRole("button", { name: /purchase more tickets/i }).click();
+
+  cy.findByRole("heading", { name: /upcoming shows/i }).should("exist");
+});
