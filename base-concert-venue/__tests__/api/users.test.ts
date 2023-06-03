@@ -1,5 +1,6 @@
 import { testApiHandler } from "next-test-api-route-handler";
 
+import { validateToken } from "@/lib/auth/utils";
 import userAuthHandler from "@/pages/api/users";
 import userReservationsHandler from "@/pages/api/users/[userId]/reservations";
 
@@ -61,6 +62,21 @@ test("GET /api/users/[userId]/reservations return an empty array if no reservati
 
       const json = await res.json();
       expect(json.userReservations).toHaveLength(0);
+    },
+  });
+});
+
+test("GET /api/users/[userId]/reservations return 401 status when not authorized", async () => {
+  (validateToken as jest.Mock).mockResolvedValue(false);
+  await testApiHandler({
+    handler: userReservationsHandler,
+    paramsPatcher: (params) => {
+      // eslint-disable-next-line no-param-reassign
+      params.userId = 1;
+    },
+    test: async ({ fetch }) => {
+      const res = await fetch();
+      expect(res.status).toBe(401);
     },
   });
 });
