@@ -76,11 +76,14 @@ export default function Shows({
             </Box>
             <Box width="10%" textAlign="center">
               {show.availableSeatCount <= 0 ? (
-                <Heading size="md" color="red.500">
+                <Heading size="md" color="red.500" data-cy={`show-${show.id}`}>
                   sold out
                 </Heading>
               ) : (
-                <Button onClick={() => router.push(`/reservations/${show.id}`)}>
+                <Button
+                  onClick={() => router.push(`/reservations/${show.id}`)}
+                  data-cy={`show-${show.id}`}
+                >
                   tickets
                 </Button>
               )}
