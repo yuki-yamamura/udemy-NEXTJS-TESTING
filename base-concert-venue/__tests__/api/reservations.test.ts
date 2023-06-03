@@ -27,7 +27,7 @@ test("POST /api/reservations/[reservationId] adds reservation to database", asyn
     },
   });
 
-  // confirm how many reservations user-id 1 has in database
+  // confirm there are three reservations for user-id 1 in database
   await testApiHandler({
     handler: userReservationsHandler,
     paramsPatcher: (params) => {
@@ -35,7 +35,6 @@ test("POST /api/reservations/[reservationId] adds reservation to database", asyn
       params.userId = 1;
     },
     test: async ({ fetch }) => {
-      // write here
       const res = await fetch({ method: "GET" });
       expect(res.status).toBe(200);
 
