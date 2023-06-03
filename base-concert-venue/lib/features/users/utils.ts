@@ -34,7 +34,7 @@ export function passwordIsValid(password: string, user: AuthUser): boolean {
   return user.hash === attemptHash.toString();
 }
 
-export function removePasswordandAddToken(user: AuthUser): User {
+export function removePasswordAndAddToken(user: AuthUser): User {
   // use "object rest operator" to remove properties in a typescript-friendly way
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const { salt, keylen, iterations, hash, digest, ...cleanUser } = user;

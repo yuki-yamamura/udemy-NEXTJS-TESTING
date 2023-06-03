@@ -7,7 +7,7 @@ import { getUsers } from "@/lib/features/users/queries";
 import type { AuthUser } from "@/lib/features/users/types";
 import {
   passwordIsValid,
-  removePasswordandAddToken,
+  removePasswordAndAddToken,
 } from "@/lib/features/users/utils";
 
 const handler = createHandler();
@@ -27,7 +27,7 @@ handler.post(async (req: NextApiRequest, res: NextApiResponse) => {
   if (!validUser) return res.status(400).json({ message: "Invalid login" });
 
   // create jwt
-  const user = removePasswordandAddToken(validUser);
+  const user = removePasswordAndAddToken(validUser);
 
   return res.status(200).json({ user });
 });
